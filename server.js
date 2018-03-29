@@ -26,6 +26,10 @@ app.get('/api/cities', function(req, res) {
   res.json(cities);
 })
 
+app.get('api/cities/:id', function (req, res) {
+  
+})
+
 //create new city
 app.post('api/cities', function (req, res) {
 
