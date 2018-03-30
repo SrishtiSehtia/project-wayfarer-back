@@ -18,16 +18,22 @@ const cities = [
     ];
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('This is the API for project Wayfarer!');
 })
 
 //get all cities
 app.get('/api/cities', function(req, res) {
-  res.json(cities);
+  db.City.find().populate('posts')
+  .exec(function(err, cities) {
+    if (err) { return console.log("index error: " + err); }
+    res.json(cities);
+  });
 })
 
 app.get('/api/cities/:id', function (req, res) {
-
+  db.City.findOne({_id: req.params.id }, function(err, data) {
+      res.json(data);
+  });
 })
 
 //create new city
