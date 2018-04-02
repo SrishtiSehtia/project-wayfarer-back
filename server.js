@@ -2,13 +2,30 @@ var express = require('express');
 var app = express();
 var db = require('./models');
 var bodyParser = require('body-parser');
+const user = require('./routes/user.route');
+
 
 // body parser config to accept our datatypes
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
   res.send('This is the API for project Wayfarer!');
 })
+
+
+
+//JWT USER AUTH
+
+app.get('/checking', function(req,res){
+  res.json({
+    "Tutorial": "Its working"
+  });
+});
+
+app.use('/user', user)
+
+
 
 // CITIES //
 
