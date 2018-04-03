@@ -4,6 +4,7 @@ var db = require('./models');
 var bodyParser = require('body-parser');
 
 // body parser config to accept our datatypes
+app.use(bodyParser.json());  //handles json data, IMPORTANT
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function(req, res, next) {
