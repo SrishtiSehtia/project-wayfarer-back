@@ -3,11 +3,41 @@ var app = express();
 var db = require('./models');
 var bodyParser = require('body-parser');
 
+
 // body parser config to accept our datatypes
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()) // handle json data
 
 app.get('/', function (req, res) {
   res.send('This is the API for project Wayfarer!');
+})
+
+// USER 
+
+//get all users
+app.get('/api/users', function(req, res) {
+  db.User.find().populate('users')
+  .exec(function(err, users) {
+    if (err) { return console.log("index error: " + err); }
+    res.json(users);
+  });
+})
+
+app.post('/api/users', function (req, res) {
+  // create new user with form data (`req.body`)
+var newUser = new db.User({
+  email: req.body.email,
+  password: req.body.password
+  });
+  // save newCity to database
+  newUser.save(function(err, user){
+    if (err) {
+      return console.log("save error: " + err);
+    }
+    console.log("saved ", user.email);
+    // send back the user!
+    res.json(user);
+  });
 })
 
 // CITIES //
@@ -83,7 +113,7 @@ app.post('/api/posts', function (req, res) {
 var newPost = new db.Post({
   title: req.body.title,
   description: req.body.description,
-  // author: req.body.author
+  author: req.body.author
   });
   // save newPost to database
   newPost.save(function(err, post){
