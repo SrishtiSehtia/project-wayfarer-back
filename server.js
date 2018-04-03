@@ -123,6 +123,19 @@ app.post('/api/cities/:city_id/posts', function (req, res) {
 app.delete('/api/cities/:city_id/posts/:id', function (req, res) {
   // get post id from url params (`req.params`)
   console.log('posts delete', req.params);
+  db.City.findOne({_id: req.params.city_id })
+  .populate('posts')
+  .exec(function (err, foundCity) {
+    var postIndex = foundCity.posts.findIndex(function(post){
+      return post._id == req.params.id;
+    })
+    foundCity.posts.splice(postIndex, 1);
+    foundCity.save(function(err, savedCity) {
+      if(err){
+        return console.log(err);
+      }
+  })
+})
   var postId = req.params.id;
   // find the index of the post we want to remove
   db.Post.findOneAndRemove({ _id: postId })
