@@ -113,7 +113,7 @@ app.post('/api/posts', function (req, res) {
 var newPost = new db.Post({
   title: req.body.title,
   description: req.body.description,
-  author: req.body.author
+  // author: req.body.author
   });
   // save newPost to database
   newPost.save(function(err, post){
